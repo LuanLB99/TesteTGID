@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -37,7 +38,8 @@ public class User {
     @NotBlank(message = "O nome não pode estar em branco")
     private String name;
 
-    @Column(length = 14, nullable = false, unique = true)
+    @Column(length = 11, nullable = false, unique = true)
+    @Size(min=11, max=11)
     @NotBlank(message = "O CPF não pode estar em branco")
     private String cpf;
 
