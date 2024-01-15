@@ -1,10 +1,11 @@
 package com.testetgid.testetgid.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.testetgid.testetgid.dto.UserDTO;
+import com.testetgid.testetgid.dto.CompanyDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,23 +23,23 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "Users")
+@Table(name = "companies")
 @NoArgsConstructor
+public class Company {
 
-public class User {
-    
-    public User(UserDTO data){
+    public Company(CompanyDTO data){
         this.name = data.name();
-        this.cpf = data.cpf();
+        this.cnpj = data.cnpj();
         this.email = data.email();
-        this.balance = BigDecimal.ZERO;
+        this.balance = BigDecimal.valueOf(4000,00);
+        this.transactionTax = sortTaxTransaction();
     }
 
     @JsonBackReference
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
 
-    @Id
+     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -46,10 +47,10 @@ public class User {
     @NotBlank(message = "O nome não pode estar em branco")
     private String name;
 
-    @Column(length = 11, nullable = false, unique = true)
-    @Size(min=11, max=11)
+    @Column(length = 14, nullable = false, unique = true)
+    @Size(min=14, max=14)
     @NotBlank(message = "O CPF não pode estar em branco")
-    private String cpf;
+    private String cnpj;
 
     @Column(length = 100, nullable = false, unique = true)
     @NotBlank(message = "O e-mail não pode estar em branco")
@@ -59,4 +60,14 @@ public class User {
     @Column(nullable = false)
     private BigDecimal balance;
 
+    @Column(nullable = false)
+    private BigDecimal transactionTax;
+
+
+     private BigDecimal sortTaxTransaction() {
+
+        double valorAleatorio = (Math.random() * (1.50)) + 0.50;
+
+        return BigDecimal.valueOf(valorAleatorio).setScale(2, RoundingMode.HALF_UP);
+    }
 }

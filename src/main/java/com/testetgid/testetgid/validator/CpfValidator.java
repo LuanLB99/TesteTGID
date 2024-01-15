@@ -2,7 +2,7 @@ package com.testetgid.testetgid.validator;
 
 import com.testetgid.testetgid.exeptions.CPFInvalidException;
 
-public class cpfValidator {
+public class CpfValidator {
 
     public static void validateCPF(String cpf) {
 

@@ -6,7 +6,7 @@ import com.testetgid.testetgid.dto.UserDTO;
 import com.testetgid.testetgid.exeptions.CPFInvalidException;
 import com.testetgid.testetgid.model.User;
 import com.testetgid.testetgid.service.UserService;
-import com.testetgid.testetgid.validator.cpfValidator;
+import com.testetgid.testetgid.validator.CpfValidator;
 
 import jakarta.validation.Valid;
 
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UsersController {
 
 
@@ -39,11 +39,11 @@ public class UsersController {
     }
     
     
-    @PostMapping("/sign-up")
-    public ResponseEntity<String> createUser(@Valid @RequestBody UserDTO user) {
-
+    @PostMapping
+    public ResponseEntity<String> createUser(@RequestBody @Valid UserDTO user) {
+        //To do: Tratar erro do email.
         try {
-            cpfValidator.validateCPF(user.cpf());
+            CpfValidator.validateCPF(user.cpf());
             userService.createUser(user);
             return ResponseEntity.ok("Usuário cadastrado com sucesso!");
         }
